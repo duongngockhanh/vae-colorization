@@ -111,4 +111,4 @@ class VAE(nn.Module):
 if __name__ == "__main__":
     model = VAE()
     from torchsummary import summary
-    summary(model, [(2, 64, 64), (1, 64, 64), (64,)], device="cpu")
+    summary(model, [(2, 64, 64), (1, 64, 64), (64, 1, 1)], device="cpu")
