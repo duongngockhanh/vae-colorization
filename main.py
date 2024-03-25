@@ -61,9 +61,9 @@ args = parser.parse_args()
   
 def get_dirpaths(args): 
   if(args.dataset_key == 'lfw'):
-    out_dir = 'data/output/lfw/'
-    listdir = 'data/imglist/lfw/'
-    featslistdir = 'data/featslist/lfw/'
+    out_dir = 'data/output/lfw'
+    listdir = 'data/imglist/lfw'
+    featslistdir = 'data/featslist/lfw'
   else:
     raise NameError('[ERROR] Incorrect key: %s' % (args.dataset_key))
   return out_dir, listdir, featslistdir
@@ -183,7 +183,7 @@ def train_vae(logger=None):
       lossweights = lossweights.reshape(batchsize, -1)
       input_greylevel = Variable(batch_recon_const).cuda()
       z = Variable(torch.randn(batchsize, hiddensize))
- 
+      
       optimizer.zero_grad()
       mu, logvar, color_out = model(input_color, input_greylevel, z)
       kl_loss, recon_loss, recon_loss_l2 = \
@@ -217,6 +217,7 @@ def train_vae(logger=None):
     print('[DEBUG] VAE Test Loss, epoch %d has loss %f' % (epochs, test_loss)) 
 
     torch.save(model.state_dict(), '%s/models/model_vae.pth' % (out_dir))
+  print("Complete VAE training")
 
 def train_mdn(logger=None):
   out_dir, listdir, featslistdir = get_dirpaths(args)
@@ -278,6 +279,7 @@ def train_mdn(logger=None):
     train_loss = (train_loss*1.)/(nbatches)
     print('[DEBUG] Training MDN, epoch %d has loss %f' % (epochs_mdn, train_loss))
     torch.save(model_mdn.state_dict(), '%s/models/model_mdn.pth' % (out_dir))
+  print("Complete MDN training")
 
 def divcolor():
   out_dir, listdir, featslistdir = get_dirpaths(args)

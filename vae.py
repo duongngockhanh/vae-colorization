@@ -102,8 +102,10 @@ class VAE(nn.Module):
             stddev = torch.sqrt(torch.exp(logvar))
             eps = torch.randn_like(stddev)
             z = mu + eps * stddev
+            z = z.to(greylevel.device)
         else:
             z = z_in
+            z = z.to(greylevel.device)
         color_out = self.decoder(z, sc_feat32, sc_feat16, sc_feat8, sc_feat4)
         return mu, logvar, color_out
 
