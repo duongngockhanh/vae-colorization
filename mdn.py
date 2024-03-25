@@ -14,22 +14,22 @@ class MDN(nn.Module):
 
         # Define MDN Layers - (512, 64, 64)
         self.model = nn.Sequential(
-            nn.Conv2d(self.feats_nch, 384, 5, stride=1, padding=2), # (384, 32, 32)
+            nn.Conv2d(self.feats_nch, 384, 5, stride=1, padding=2), # (384, 28, 28)
             nn.BatchNorm2d(384),
             nn.ReLU(),
-            nn.Conv2d(384, 320, 5, stride=1, padding=2),            # (320, 32, 32)
+            nn.Conv2d(384, 320, 5, stride=1, padding=2),            # (320, 28, 28)
             nn.BatchNorm2d(320),
             nn.ReLU(),
-            nn.Conv2d(320, 288, 5, stride=1, padding=2),            # (288, 32, 32)
+            nn.Conv2d(320, 288, 5, stride=1, padding=2),            # (288, 28, 28)
             nn.BatchNorm2d(288),
             nn.ReLU(),
-            nn.Conv2d(288, 256, 5, stride=2, padding=2),            # (256, 16, 16)
+            nn.Conv2d(288, 256, 5, stride=2, padding=2),            # (256, 14, 14)
             nn.BatchNorm2d(256),
             nn.ReLU(),
-            nn.Conv2d(256, 128, 5, stride=1, padding=2),            # (128, 16, 16)
+            nn.Conv2d(256, 128, 5, stride=1, padding=2),            # (128, 14, 14)
             nn.BatchNorm2d(128),
             nn.ReLU(),
-            nn.Conv2d(128, 96, 5, stride=2, padding=2),             # (96, 8, 8)
+            nn.Conv2d(128, 96, 5, stride=2, padding=2),             # (96, 7, 7)
             nn.BatchNorm2d(96),
             nn.ReLU(),
             nn.Conv2d(96, 64, 5, stride=2, padding=2),              # (64, 4, 4)
@@ -51,4 +51,4 @@ class MDN(nn.Module):
 if __name__ == "__main__":
     model = MDN()
     from torchsummary import summary
-    summary(model, (512, 32, 32))   # (520,)
+    summary(model, (512, 28, 28))   # (520,)
