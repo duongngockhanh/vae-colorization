@@ -2,14 +2,12 @@ from __future__ import print_function
 
 import argparse
 import os
-import socket
-import sys
+
 import numpy as np 
 
 from colordata import colordata
 from vae import VAE
 from mdn import MDN
-# from logger import Logger
 
 import torch
 import torch.nn as nn
@@ -107,7 +105,7 @@ def mdn_loss(gmm_params, mu, stddev, batchsize):
 
 def test_vae(model):
 
-  model.train(False)
+  model.eval()
 
   out_dir, listdir, featslistdir = get_dirpaths(args)
   batchsize = args.batchsize 
@@ -142,7 +140,7 @@ def test_vae(model):
     
   test_loss = (test_loss*1.)/nbatches 
 
-  model.train(True)
+  model.train()
 
   return test_loss
 
@@ -167,7 +165,7 @@ def train_vae(logger=None):
 
   model = VAE()
   model.cuda()
-  model.train(True)
+  model.train()
 
   optimizer = optim.Adam(model.parameters(), lr=5e-5)
 
@@ -240,11 +238,11 @@ def train_mdn(logger=None):
   model_vae = VAE()
   model_vae.cuda()
   model_vae.load_state_dict(torch.load('%s/models/model_vae.pth' % (out_dir)))
-  model_vae.train(False)
+  model_vae.eval()
 
   model_mdn = MDN()
   model_mdn.cuda()
-  model_mdn.train(True)
+  model_mdn.train()
 
   optimizer = optim.Adam(model_mdn.parameters(), lr=1e-3)
 
@@ -301,12 +299,12 @@ def divcolor():
   model_vae = VAE()
   model_vae.cuda()
   model_vae.load_state_dict(torch.load('%s/models/model_vae.pth' % (out_dir)))
-  model_vae.train(False)
+  model_vae.eval()
 
   model_mdn = MDN()
   model_mdn.cuda()
   model_mdn.load_state_dict(torch.load('%s/models/model_mdn.pth' % (out_dir)))
-  model_mdn.train(False) 
+  model_mdn.eval() 
 
   for batch_idx, (batch, batch_recon_const, batch_weights, \
     batch_recon_const_outres, batch_feats) in \
@@ -334,7 +332,7 @@ def divcolor():
   
       z = curr_mu.repeat(int((batchsize*1.)/nmix), 1)
 
-      _, _, color_out = model_vae(input_color, input_greylevel, z, is_train=False)
+      _, _, color_out = model_vae(input_color, input_greylevel, z)
 
       data.saveoutput_gt(color_out.cpu().data.numpy()[orderid, ...], \
        batch_j[orderid, ...], \
