@@ -356,7 +356,7 @@ def divcolor():
 
 
 if __name__ == "__main__":
-    os.enviro["CUDA_VISIBLE_DEVICES"] = str(args.gpu)
+    os.environ["CUDA_VISIBLE_DEVICES"] = str(args.gpu)
     train_vae()
     train_mdn()
     divcolor()
