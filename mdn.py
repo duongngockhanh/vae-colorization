@@ -12,7 +12,7 @@ class MDN(nn.Module):
         self.nmix = 8
         self.nout = (self.hidden_size + 1) * self.nmix
 
-        # Define MDN Layers - (512, 64, 64)
+        # Define MDN Layers - (512, 28, 28)
         self.model = nn.Sequential(
             nn.Conv2d(self.feats_nch, 384, 5, stride=1, padding=2), # (384, 28, 28)
             nn.BatchNorm2d(384),
